@@ -1,0 +1,9 @@
+#logoutClick,
+.dropdown-toggle,
+.dropdown-item {
+    cursor: pointer;
+}
+
+.admin{
+    font-weight: bold;
+}

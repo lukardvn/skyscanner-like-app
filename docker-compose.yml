@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  avio-api:
+    container_name: avio-api-container
+    build: ./WebApp/WebApp
+    image: avio-api
+    environment: 
+      - DBPassword=Pa55w0rd2019
+    ports:
+      -  "8080:80"
+    depends_on: 
+      - avio-sql
+      
+  avio-sql:
+    container_name: avio-sql-container
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pa55w0rd2019
+    ports: 
+      - "1433:1433"
+ 

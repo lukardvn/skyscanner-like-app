@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp-container
+        image: api-img
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: DBServer
+            valueFrom:
+              configMapKeyRef:
+                name: api-configmap
+                key: DBServer
+          - name: DBPort
+            valueFrom:
+              configMapKeyRef:
+                name: api-configmap
+                key: DBPort
+          - name: DBUser
+            valueFrom:
+              configMapKeyRef:
+                name: api-configmap
+                key: DBUser
+          - name: DBPassword
+            valueFrom:
+              configMapKeyRef:
+                name: api-configmap
+                key: DBPassword
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  selector:
+    app: webapp
+  ports:
+  - port: 8080
+    targetPort: 80
+  type: LoadBalancer

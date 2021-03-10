@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-deployment
+spec:
+  selector:
+    matchLabels:
+      app: microservice
+  template:
+    metadata:
+      labels:
+        app: microservice
+    spec:
+      containers:
+      - name: microservice-container
+        image: microservice-api-img
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: DBServer
+            valueFrom:
+              configMapKeyRef:
+                name: microservice-configmap
+                key: DBServer    
+          - name: DBPort
+            valueFrom:
+              configMapKeyRef:
+                name: microservice-configmap
+                key: DBPort
+          - name: DBUser
+            valueFrom:
+              configMapKeyRef:
+                name: microservice-configmap
+                key: DBUser
+          - name: DBPassword
+            valueFrom:
+              configMapKeyRef:
+                name: microservice-configmap
+                key: DBPassword
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-service
+spec:
+  selector:
+    app: microservice
+  ports:
+  - port: 8084
+    targetPort: 80
+  type: LoadBalancer

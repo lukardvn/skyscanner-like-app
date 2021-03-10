@@ -1,0 +1,29 @@
+<h1>Flights</h1>
+<div class="table-responsive">
+  <table datatable *ngIf="data" class="table table-striped table-sm">
+    <thead>
+        <tr>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Date</th>
+        <th>Takeoff time</th>
+        <th>Landing time</th>
+        <th>Price per seat</th>
+        <th>Discounted?</th>
+        <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let flight of data">
+        <td>{{flight.origin}}</td>
+        <td>{{flight.destination}}</td>
+        <td>{{flight.takeoffTime | date}}</td>
+        <td>{{flight.takeoffTime | date:'h:mm a z'}}</td>
+        <td>{{flight.landingTime | date:'h:mm a z'}}</td>
+        <td>{{flight.price | currency}}</td>
+        <td>{{flight.quickReservation}}</td>
+        <td><button (click)="toggleDiscount(flight)" class="btn btn-info">discount</button></td>
+        </tr>
+    </tbody>
+  </table>
+</div>

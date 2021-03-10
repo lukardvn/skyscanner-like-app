@@ -1,0 +1,25 @@
+<div class="center-narrow">
+    <h2>Invite friends to your trip?</h2>
+    <div class="table-responsive" *ngIf="friends">
+        <table datatable class="table table-striped table-sm">
+        <thead>
+            <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let friend of friends">
+            <td>{{friend.email}}</td>
+            <td>{{friend.name}}</td>
+            <td>{{friend.surname}}</td>
+            <td>
+                <button (click)="inviteFriend($event, friend)">Invite</button>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+    </div> <br>
+</div>

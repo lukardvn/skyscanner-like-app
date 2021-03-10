@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  car-api:
+    container_name: car-api-container
+    build: .
+    image: car-api
+    environment: 
+      - DBPassword=Pa55w0rd2020
+    ports:
+      -  "9020:80"
+    depends_on: 
+      - sql-car
+      
+  sql-car:
+    container_name: sql-car-container
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pa55w0rd2020
+    ports: 
+      - "1434:1434"
+ 
