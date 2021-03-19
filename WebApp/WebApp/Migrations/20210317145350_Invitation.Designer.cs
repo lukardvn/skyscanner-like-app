@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Data;
 
 namespace WebApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210317145350_Invitation")]
+    partial class Invitation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,10 +156,10 @@ namespace WebApp.Migrations
                     b.Property<int?>("ReturningFlightId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserReceivingId")
+                    b.Property<int>("UserReceivingId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserSendingId")
+                    b.Property<int>("UserSendingId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -165,10 +167,6 @@ namespace WebApp.Migrations
                     b.HasIndex("DepartingFlightId");
 
                     b.HasIndex("ReturningFlightId");
-
-                    b.HasIndex("UserReceivingId");
-
-                    b.HasIndex("UserSendingId");
 
                     b.ToTable("Invitations");
                 });
@@ -323,14 +321,6 @@ namespace WebApp.Migrations
                     b.HasOne("WebApp.Models.Flight", "ReturningFlight")
                         .WithMany()
                         .HasForeignKey("ReturningFlightId");
-
-                    b.HasOne("WebApp.Models.User", "UserReceiving")
-                        .WithMany("InvitationsReceived")
-                        .HasForeignKey("UserReceivingId");
-
-                    b.HasOne("WebApp.Models.User", "UserSending")
-                        .WithMany("InvitationsSent")
-                        .HasForeignKey("UserSendingId");
                 });
 
             modelBuilder.Entity("WebApp.Models.Reservation", b =>

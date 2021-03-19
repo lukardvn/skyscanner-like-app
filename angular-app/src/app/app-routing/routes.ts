@@ -30,6 +30,8 @@ import { AllCarsComponent } from '../rent-a-car/all-cars/all-cars.component';
 import { EmailConfirmedComponent } from '../accounts/email-confirmed/email-confirmed.component';
 import { EmailSentComponent } from '../accounts/email-sent/email-sent.component';
 import { FriendsComponent } from '../flights/friends/friends.component';
+import { ListInvitationsComponent } from '../invitations/list-invitations/list-invitations.component';
+import { InvitationDetailComponent } from '../invitations/invitation-detail/invitation-detail.component';
 
 export const routes: Routes = [
     { path: 'signup-form', component: SignupFormComponent, canActivate: [AnonymousGuard] },
@@ -67,5 +69,8 @@ export const routes: Routes = [
     { path: 'airlines/:id', component: AirlineDetailComponent},
 
     { path: 'cars/all', component: AllCarsComponent },
-    { path: 'cars/:id', component: CarComponent }
+    { path: 'cars/:id', component: CarComponent },
+
+    { path: 'list-invitations', component: ListInvitationsComponent },
+    { path: 'list-invitations/:id', component: InvitationDetailComponent }
 ];

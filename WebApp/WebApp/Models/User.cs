@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Models.Enums;
@@ -9,7 +10,6 @@ namespace WebApp.Models
 {
     public class User
     {
-
         public int Id { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -27,6 +27,10 @@ namespace WebApp.Models
         public string PhoneNumber { get; set; }
         public List<Reservation> Reservations { get; set; }
         public List<Friendship> Friendships { get; set; }
+        [InverseProperty("UserSending")]
+        public List<Invitation> InvitationsSent { get; set; }
+        [InverseProperty("UserReceiving")]
+        public List<Invitation> InvitationsReceived { get; set; }
         public UserType Type { get; set; } = UserType.regular;
         public Airline Airline { get; set; } = null;
         public bool EmailConfirmed { get; set; } = false;

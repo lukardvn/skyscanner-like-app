@@ -25,6 +25,7 @@ using WebApp.Services.ReservationService;
 using WebApp.Services.UserService;
 using Microsoft.OpenApi.Models;
 using WebApp.Configs;
+using WebApp.Services.InvitationService;
 
 namespace WebApp
 {
@@ -105,6 +106,7 @@ namespace WebApp
             services.AddScoped<IFriendshipService, FriendshipService>();
             services.AddScoped<IAirlineService, AirlineService>();
             services.AddScoped<IDestinationService, DestinationService>();
+            services.AddScoped<IInvitationService, InvitationService>();
             //services.Configure<EmailParameters>(Configuration.GetSection("EmailParameters"));
         }
 

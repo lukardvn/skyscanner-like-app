@@ -67,6 +67,9 @@ import { EmailConfirmedComponent } from './accounts/email-confirmed/email-confir
 import { EmailSentComponent } from './accounts/email-sent/email-sent.component';
 import { FriendsComponent } from './flights/friends/friends.component';
 import { ToastrModule } from 'ngx-toastr';
+import { InvitationService } from './services/invitation/invitation.service';
+import { ListInvitationsComponent } from './invitations/list-invitations/list-invitations.component';
+import { InvitationDetailComponent } from './invitations/invitation-detail/invitation-detail.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +110,9 @@ import { ToastrModule } from 'ngx-toastr';
     AllCarsComponent,
     EmailConfirmedComponent,
     EmailSentComponent,
-    FriendsComponent
+    FriendsComponent,
+    ListInvitationsComponent,
+    InvitationDetailComponent
     ],
   exports: [
     PhoneFormatDirective,
@@ -148,7 +153,8 @@ import { ToastrModule } from 'ngx-toastr';
       multi: true
     },
     DestinationService,
-    CarService
+    CarService,
+    InvitationService
   ],
   bootstrap: [AppComponent],
   //za prikaz modala

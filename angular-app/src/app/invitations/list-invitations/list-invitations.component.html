@@ -1,0 +1,29 @@
+<div class="center-narrow">
+    <h1>Invites</h1>
+    <div class="table-responsive">
+      <table *ngIf="invitations" class="table table-striped table-sm">
+        <thead>
+            <tr>
+              <th>Who sent it?</th>
+              <th>Origin #1</th>
+              <th>Destination #1</th>
+              <th>Origin #2</th>
+              <th>Destination #2</th>
+              <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let invitation of invitations">
+              <td>{{ invitation.userSending.name }} {{ invitation.userSending.surname }}</td>
+              <td>{{ invitation.departingFlight.origin }}</td>
+              <td>{{ invitation.departingFlight.destination }}</td>
+              <td *ngIf="invitation.returningFlight">{{ invitation.returningFlight.origin }}</td>
+              <td *ngIf="!invitation.returningFlight"></td>
+              <td *ngIf="invitation.returningFlight">{{ invitation.returningFlight.destination }}</td>
+              <td *ngIf="!invitation.returningFlight"></td>
+              <td><button class="btn btn-info" [routerLink]="['/list-invitations/', invitation.id]">Details</button></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

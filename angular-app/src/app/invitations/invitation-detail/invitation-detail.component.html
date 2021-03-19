@@ -1,0 +1,103 @@
+<div class="center-narrow" *ngIf="invitation">
+
+  <div class="col-md-8 order-md-1">   
+    <div class="row">
+        <h2 class="mb-3">Invitation details
+        </h2>
+    </div>  
+    <div class="row">
+        <div class="col-sm-6 mb-3">
+          <label class="label-info">Who invited me? 
+          </label>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <label>{{ invitation.userSending.name }} {{ invitation.userSending.surname }} </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mb-3">
+          <label class="label-info" for="address">Departing flight info</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mb-3">
+          <label class="label-info">
+          </label>
+        </div>
+        <div class="col-sm-6 mb-3">
+          <label>{{ invitation.departingFlight.origin }} on {{ invitation.departingFlight.takeoffTime | date:'medium'}} </label>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>{{ invitation.departingFlight.destination }} on {{ invitation.departingFlight.landingTime | date:'medium'}} </label>
+    </div>  
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>{{ invitation.departingFlight.price | currency:'USD'}} </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8 order-md-1" *ngIf="invitation.returningFlight">   
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info" for="address">Returning flight info</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info">
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>{{ invitation.returningFlight.origin }} on {{ invitation.returningFlight.takeoffTime | date:'medium'}} </label>
+      </div>   
+    </div>
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>{{ invitation.returningFlight.destination }} on {{ invitation.returningFlight.landingTime | date:'medium'}} </label>
+    </div>  
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label> {{ invitation.returningFlight.price | currency:'USD'}} </label>
+      </div> 
+    </div>
+  </div>
+
+  <!--<div class="col-md-8 order-md-1">   
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info" for="address">Total price</label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>{{ invitation.userSending.name }} {{ invitation.userSending.surname }} </label>
+      </div>
+    </div>
+  </div>-->
+  <div class="col-md-8 order-md-1">   
+    <div class="row">
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"></label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <button class="btn btn-success btn-lg" (click)="acceptInvitation()" [routerLink]="['/list-reservations/']">accept</button>
+        <button style="float: right;" class="btn btn-danger btn-lg" (click)="rejectInvitation()" [routerLink]="['/list-invitations/']">reject</button>
+      </div>
+    </div>
+  </div>
+</div>

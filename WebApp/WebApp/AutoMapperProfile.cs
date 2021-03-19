@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApp.Dtos.Airline;
 using WebApp.Dtos.Flight;
 using WebApp.Dtos.Friendship;
+using WebApp.Dtos.Invitation;
 using WebApp.Dtos.Reservation;
 using WebApp.Dtos.User;
 using WebApp.Models;
@@ -22,6 +23,8 @@ namespace WebApp
             CreateMap<User, FriendUserDto>();
             CreateMap<AddFlightDto, Flight>();
             CreateMap<Airline, UpdateAirlineDto>();
+
+            //CreateMap<AddInvitationDto, Invitation>();
         }
     }
 }
