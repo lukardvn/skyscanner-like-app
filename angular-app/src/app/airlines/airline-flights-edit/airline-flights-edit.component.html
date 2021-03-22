@@ -15,14 +15,16 @@
     </thead>
     <tbody>
         <tr *ngFor="let flight of data">
-        <td>{{flight.origin}}</td>
-        <td>{{flight.destination}}</td>
-        <td>{{flight.takeoffTime | date}}</td>
-        <td>{{flight.takeoffTime | date:'h:mm a z'}}</td>
-        <td>{{flight.landingTime | date:'h:mm a z'}}</td>
-        <td>{{flight.price | currency}}</td>
-        <td>{{flight.quickReservation}}</td>
-        <td><button (click)="toggleDiscount(flight)" class="btn btn-info">discount</button></td>
+          <td>{{flight.origin}}</td>
+          <td>{{flight.destination}}</td>
+          <td>{{flight.takeoffTime | date}}</td>
+          <td>{{flight.takeoffTime | date:'h:mm a z'}}</td>
+          <td>{{flight.landingTime | date:'h:mm a z'}}</td>
+          <td>{{flight.price | currency}}</td>
+          <td>{{flight.quickReservation}}</td>
+          <td>
+            <button *ngIf="authService.currentUser  && authService.currentUser.role === 'admin'" (click)="toggleDiscount(flight)" class="btn btn-info">discount</button>
+          </td>
         </tr>
     </tbody>
   </table>

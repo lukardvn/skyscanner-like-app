@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FriendshipService } from 'src/app/services/friendship/friendship.service';
 import { InvitationService } from 'src/app/services/invitation/invitation.service';
 import { Invitation } from 'src/models/Invitation';
 import { InvitationDto } from 'src/models/InvitationDto';
+import { InvitationDepartingSeatsComponent } from '../invitation-departing-seats/invitation-departing-seats.component';
 
 @Component({
   selector: 'app-friends',
@@ -18,12 +20,10 @@ export class FriendsComponent implements OnInit {
   constructor(private friendshipService: FriendshipService,
               private router: Router,
               private toastr: ToastrService,
-              private invitationService: InvitationService) { }
+              private invitationService: InvitationService,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log("CHILD OBJJJJJ"); 
-    console.log(this.reservationDto);
-
     this.friendshipService.getFriends().subscribe(result => {
       this.friends = [...result.data];
     });
@@ -33,7 +33,8 @@ export class FriendsComponent implements OnInit {
     this.router.navigateByUrl('/reservation-summary');
   }
 
-  inviteFriend(event: any, friend: any){
+  //  STARI NACIN, RADI BEZ SEDISTA
+  /*inviteFriend(event: any, friend: any){
     this.toastr.success( `${friend.name} ${friend.surname}`, 'invitation sent to');
     event.target.disabled = true;
 
@@ -48,35 +49,16 @@ export class FriendsComponent implements OnInit {
     this.invitationService.createInvitation(invite).subscribe(result=> {
       console.log(result.data);
     });
+  }*/
+
+  inviteFriendAndShowModal(friend: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = friend;
+
+    this.dialog.open(InvitationDepartingSeatsComponent, dialogConfig);
   }
 
-  /*inviteFriend(event: any, friend: any){ 
-    this.toastr.success( `${friend.name} ${friend.surname}`, 'invitation sent to');
-    event.target.disabled = true;
-
-    let invite;
-    if (this.reservationDto.ReturningFlight !== null){
-      invite = new InvitationDto({
-        UserReceivingId: friend.id,
-        UserSendingId: +this.reservationDto.UserId,
-        DepartingFlightId: this.reservationDto.DepartingFlight.id,
-        ReturningFlightId: this.reservationDto.ReturningFlight.id
-      });
-    } else {
-      invite = new InvitationDto({
-        UserReceivingId: friend.id,
-        UserSendingId: +this.reservationDto.UserId,
-        DepartingFlightId: this.reservationDto.DepartingFlight.id,
-        ReturningFlightId: 0
-      });
-    }   
-    console.log(invite); //ovded poziv servisa koji postuje invitaciju
-    this.invitationService.createInvitation(invite).subscribe(result=> {
-      console.log(result.data);
-    });
-
-    //ovde bi trebalo da post-ujem Invitation objekat koji sadrzi polja napravljene rezervacije kao i polje User kome saljemo pozivnicu
-    //Reservation objekat treba da izvucem iz prethodne stranice: reservation-summary
-    // { DepartingFlight, ReturningFlight, UserId(moj id, UserKomSaljem) }
-  }*/
 }

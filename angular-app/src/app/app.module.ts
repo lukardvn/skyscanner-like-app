@@ -70,6 +70,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { InvitationService } from './services/invitation/invitation.service';
 import { ListInvitationsComponent } from './invitations/list-invitations/list-invitations.component';
 import { InvitationDetailComponent } from './invitations/invitation-detail/invitation-detail.component';
+import { DepartingFlightSeatsComponent } from './flights/departing-flight-seats/departing-flight-seats.component';
+import { ReturningFlightSeatsComponent } from './flights/returning-flight-seats/returning-flight-seats.component';
+import { InvitationDepartingSeatsComponent } from './flights/invitation-departing-seats/invitation-departing-seats.component';
+import { InvitationReturningSeatsComponent } from './flights/invitation-returning-seats/invitation-returning-seats.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +116,11 @@ import { InvitationDetailComponent } from './invitations/invitation-detail/invit
     EmailSentComponent,
     FriendsComponent,
     ListInvitationsComponent,
-    InvitationDetailComponent
+    InvitationDetailComponent,
+    DepartingFlightSeatsComponent,
+    ReturningFlightSeatsComponent,
+    InvitationDepartingSeatsComponent,
+    InvitationReturningSeatsComponent
     ],
   exports: [
     PhoneFormatDirective,
@@ -167,7 +175,8 @@ import { InvitationDetailComponent } from './invitations/invitation-detail/invit
     AddFlightComponent,
     AddDestinationComponent,
     AirlineMapComponent,
-    QuickReservationsComponent
+    QuickReservationsComponent,
+    InvitationDepartingSeatsComponent,
   ]
 })
 export class AppModule { }

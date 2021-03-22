@@ -5,10 +5,17 @@
 export const environment = {
   production: false,
   //localUrl: 'http://localhost:8080', // kada se pokrece preko dockera i kubernetesa
+  localUrl: 'http://localhost:8085',
+  localCarUrl: 'http://localhost:8087'
+
+
   //localUrl: 'http://localhost:100/api/v1/namespaces/default/services/webapp-service/proxy', //kada se pokrece preko kub klastera
   //localCarUrl: 'http://localhost:100/api/v1/namespaces/default/services/microservice-service/proxy',
-  localUrl: 'https://localhost:44383', //kada se pokrece lokalno
-  localCarUrl: 'https://localhost:44323', //takodje lokalno, ali za car microservice
+  
+
+
+  //localUrl: 'https://localhost:44383', //kada se pokrece LOKALNO BEZ DOCKERA
+  //localCarUrl: 'https://localhost:44323', //takodje lokalno, ali za car microservice
 };
 
 /*

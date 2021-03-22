@@ -53,6 +53,14 @@
               <label>{{reservation.departingFlight.price | currency}}</label>
             </div>
         </div>
+        <div class="row">
+          <div class="col-sm-6 mb-3">
+            <label class="label-info">SEAT# </label>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <label>{{reservation.departingFlightSeat.number}}</label>
+          </div>
+        </div>
         <div class="row" *ngIf="finished1 === 1">
           <div class="col-sm-6 mb-3">
             <label class="label-info">My rating(1-5)</label>
@@ -118,6 +126,14 @@
             <div class="col-sm-6 mb-3">
               <label>{{reservation.returningFlight.price | currency}}</label>
             </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 mb-3">
+            <label class="label-info">SEAT# </label>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <label>{{reservation.returningFlightSeat.number}}</label>
+          </div>
         </div>
         <div class="row" *ngIf="finished2 === 1">
           <div class="col-sm-6 mb-3">

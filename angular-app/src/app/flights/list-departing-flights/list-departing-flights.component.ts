@@ -20,16 +20,16 @@ export class ListDepartingFlightsComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    console.log(this.flights);
+    /*console.log(this.flights);
     console.log(this.returning);
     console.log("Duzina1: " + this.flights.length);
-    console.log("Duzina2: " + this.returning.length);
+    console.log("Duzina2: " + this.returning.length);*/
   }
 
   select(flight: Flight) {
     this.reservationService.selectedDepartingFlight = flight;
-
-    if (this.flightService.returningFlights.length === 0){
+    this.router.navigateByUrl('/departing-flight-seats');
+    /*if (this.flightService.returningFlights.length === 0){
       this.router.navigateByUrl('/reservation-summary');
       this.toastr.info('flight selected', 'success', {
         timeOut: 1000,
@@ -37,6 +37,7 @@ export class ListDepartingFlightsComponent implements OnInit {
     }
       //this.router.navigateByUrl('/reservation/invite-friends');
     else
-      this.router.navigateByUrl('/returning-flights');
+      //this.router.navigateByUrl('/returning-flights');
+      this.router.navigateByUrl('/departing-flight-seats');*/
   }
 }

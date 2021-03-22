@@ -9,9 +9,13 @@ namespace WebApp.Services.InvitationService
 {
     public interface IInvitationService
     {
-        Task<ServiceResponse<bool>> CreateInvitation(AddInvitationDto newInvitation);
+        Task<ServiceResponse<Invitation>> CreateInvitation(AddInvitationDto newInvitation);
         Task<ServiceResponse<List<Invitation>>> GetInvitations();
         Task<ServiceResponse<Invitation>> GetInvitation(int id);
-        Task<ServiceResponse<bool>> DeleteInvitation(int id);
+        Task<ServiceResponse<Invitation>> DeleteInvitation(int id);
+        Task<ServiceResponse<Seat>> FreeSeatFromHold(Seat seat);
+        Task<ServiceResponse<Seat>> TakeSeatFromHold(Seat seat);
+        Task<ServiceResponse<Seat>> HoldSeat(Seat seat);
+
     }
 }

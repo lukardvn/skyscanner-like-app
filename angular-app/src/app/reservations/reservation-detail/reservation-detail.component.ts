@@ -32,6 +32,8 @@ export class ReservationDetailComponent implements OnInit {
       this.finished1 = this.compareDate(new Date(), this.reservation.departingFlight.landingTime);
       this.review = this.alreadyLeftReview(this.reservation.departingFlight.reviews);
 
+      console.log(this.reservation);
+
       if (this.reservation.returningFlight !== null){
         this.finished2 = this.compareDate(new Date(), this.reservation.returningFlight.landingTime);
         this.review2 = this.alreadyLeftReview(this.reservation.returningFlight.reviews);
@@ -56,9 +58,21 @@ export class ReservationDetailComponent implements OnInit {
   }
 
   cancelReservation(id) {//ovde poziv servisu za brisanje rezervacije iz baze
-    this.reservationService.cancelReservation(id).subscribe((result:any) => {
-      if (result.data === true)
+    this.reservationService.cancelReservation(id).subscribe(result => {
+      console.log("sabskrajb na cancelReservation, objekat je:");
+      console.log(result.data);
+
+      if (result.data !== null){
+        this.reservationService.updateSeat(result.data.departingFlightSeat).subscribe();
+        console.log("sabskrajb na prvu promenu sedista");
+        if (result.data.returningFlighSeat !== null){
+          this.reservationService.updateSeat(result.data.returningFlightSeat).subscribe();
+          console.log("sabskrajb na drugu promenu sedista");
+          this.router.navigateByUrl("/list-reservations");
+        }
+
         this.router.navigateByUrl("/list-reservations");     
+      }
       else 
         this.noTime = true;
     }, err => {

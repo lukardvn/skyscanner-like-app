@@ -12,5 +12,10 @@ namespace WebApp.Dtos.Reservation
         public Models.User? User { get; set; }
         public Models.Flight DepartingFlight { get; set; }
         public Models.Flight ReturningFlight { get; set; }
+        //public int DepartingFlightSeatId { get; set; }
+        //public int? ReturningFlightSeatId { get; set; }
+        public Models.Seat DepartingFlightSeat { get; set; }
+        public Models.Seat? ReturningFlightSeat { get; set; }
+
     }
 }

@@ -10,8 +10,11 @@ namespace WebApp.Services.ReservationService
     public interface IReservationService
     {
         Task<ServiceResponse<List<Reservation>>> GetAllReservations();
-        Task<ServiceResponse<List<Reservation>>> AddReservation(AddReservationDto newReservation);
+        Task<ServiceResponse<Reservation>> AddReservation(AddReservationDto newReservation);
         Task<ServiceResponse<Reservation>> GetSingle(int id);
-        Task<ServiceResponse<bool>> CancelReservation(int reservationId);
+        Task<ServiceResponse<Reservation>> CancelReservation(int reservationId);
+        Task<ServiceResponse<Seat>> UpdateReservationSeatState(Seat seat);
+        Task<ServiceResponse<Reservation>> AddReservationQuick(QuickReservationDto newReservation);
+        //Task<ServiceResponse<Seat>> UpdateInvitationSeatState(Seat seat);
     }
 }

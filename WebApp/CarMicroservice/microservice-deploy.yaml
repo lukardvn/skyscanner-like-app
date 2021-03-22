@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: microservice-container
-        image: microservice-api-img
+        #image: microservice-api-img
+        image: novi-carmicroservice
         imagePullPolicy: Never
         resources:
           limits:
@@ -51,6 +52,6 @@ spec:
   selector:
     app: microservice
   ports:
-  - port: 8084
+  - port: 8087
     targetPort: 80
   type: LoadBalancer

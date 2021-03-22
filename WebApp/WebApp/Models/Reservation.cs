@@ -15,6 +15,8 @@ namespace WebApp.Models
         [Required]
         public Flight DepartingFlight { get; set; }
         public Flight ReturningFlight { get; set; }
+        public Seat DepartingFlightSeat { get; set; }
+        public Seat ReturningFlightSeat { get; set; }
         //public DateTime DateMade { get; set; }
     }
 }

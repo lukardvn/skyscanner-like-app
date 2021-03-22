@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { resetFakeAsyncZone } from '@angular/core/testing';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { FriendshipService } from 'src/app/services/friendship/friendship.service';
+import { flatMap, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reservation-summary',
@@ -29,14 +30,32 @@ export class ReservationSummaryComponent implements OnInit {
     let reservation = new ReservationDto({
       DepartingFlight: this.departingFlight,
       ReturningFlight: this.returningFlight,
-      UserId: this.authService.currentUser.nameid
-    }); //kontam da ovde proverim koliko ljudi, ako ima jos ljudi, posaljem njima ovu rezervaciju i oni prihvataju ili ne
+      UserId: this.authService.currentUser.nameid,
+      DepartingFlightSeat: this.reservationService.departingFlightSeat,
+      ReturningFlightSeat: this.reservationService.returningFlightSeat
+    });
     
-    this.reservationService.addReservation(reservation).subscribe(result => {
-      console.log(result.data);  //redirect to next page...
+    //IPAK NE BRISEM ZBOG MODALA
+    //this.reservationService.departingFlightSeat = null;
+    //this.reservationService.returningFlightSeat = null;
+    //this.reservationService.selectedDepartingFlight = null;
+    //this.reservationService.selectedReturningFlight = null;
+
+    this.reservationService.addReservation(reservation).subscribe(result1 => {
+      this.reservationService.updateSeat(result1.data.departingFlightSeat).subscribe();
+
+      if (result1.data.returningFlightSeat !== null){
+        this.reservationService.updateSeat(result1.data.returningFlightSeat).subscribe();
+        this.router.navigateByUrl('/reservation-summary/success');
+      }
+
       this.router.navigateByUrl('/reservation-summary/success');
-    }, err => {
-      console.log(err);
     })
+
+     /*this.reservationService.addReservation(reservation).pipe(
+      mergeMap((result1) => this.reservationService.updateSeat(result1.data.departingFlightSeat)),
+    ).subscribe(() => {
+      this.router.navigateByUrl('/reservation-summary/success');
+    });*/
   }
 }

@@ -34,6 +34,18 @@ namespace WebApp.Services.FlightService
                 var vreme = flight.LandingTime.Subtract(flight.TakeoffTime);
                 flight.Duration = vreme.Hours + "h" + vreme.Minutes + "m";
 
+                List<Seat> seats = new List<Seat>();
+                for (int i = 1; i <= newFlight.SeatsLeft; i++)
+                {
+                    seats.Add(new Seat()
+                    {
+                        Number = i,
+                        State = SeatState.FREE,
+                        Flight = flight
+                    });
+                }
+                flight.Seats = seats;
+
                 airline.Flights.Add(flight);
                 _context.Airlines.Update(airline);
                 await _context.SaveChangesAsync();
@@ -106,7 +118,8 @@ namespace WebApp.Services.FlightService
 
             try
             {
-                List<Flight> dbFlights = await _context.Flights.Include(f => f.Airline).ToListAsync();
+                List<Flight> dbFlights = await _context.Flights.Include(f => f.Seats).Include(f => f.Airline).ToListAsync();
+
                 //kod odlaznih letova poredi se datum depart-a iz forme sa takeoffTime atributom svakog leta
                 List<Flight> departingFlights = dbFlights.Where(x => x.Origin.ToLower().Equals(filter.Origin.ToLower())
                                                              && x.Destination.ToLower().Equals(filter.Destination.ToLower())

@@ -9,4 +9,8 @@ export class ReservationDto {
     UserId: number;
     DepartingFlight: Flight;
     ReturningFlight: Flight;
+    //DepartingFlightSeatId: number;
+    //ReturningFlightSeatId: number;
+    DepartingFlightSeat: any;
+    ReturningFlightSeat: any;
 }

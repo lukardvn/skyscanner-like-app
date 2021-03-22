@@ -18,7 +18,11 @@ namespace WebApp.Models
         [ForeignKey("UserReceivingId")]
         public User UserReceiving { get; set; }
         public Flight DepartingFlight { get; set; }
+        public Seat DepartingFlightSeat { get; set; }
         public Flight ReturningFlight { get; set; }
+        public Seat ReturningFlightSeat { get; set; }
+
+        public DateTime TimeCreated { get; set; }
         /*public int Id { get; set; }
         [Required]
         public int UserSendingId { get; set; }

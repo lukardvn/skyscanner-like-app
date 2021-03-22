@@ -1,0 +1,12 @@
+<div class="center-narrow">
+    <h2 class="header">Choose your desired seat</h2>
+    <!--<button (click)="selectSeat()">click</button>
+    <!--<div *ngFor="let seat of seats">
+        <div><div class='box red'></div></div>
+    </div>-->
+    <div class="grid-container">
+        <div (click)="selectSeat(seat)" [class.hold]="seat.state === 2" [class.free]="seat.state === 0" *ngFor="let seat of seats" class='grid-item'>
+                {{seat.number}}
+        </div>
+    </div>
+</div>

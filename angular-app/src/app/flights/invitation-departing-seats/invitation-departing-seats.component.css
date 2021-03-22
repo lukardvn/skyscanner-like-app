@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+  }
+  
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+    padding: 10px;
+  }
+
+.box { 
+	width: 15px; 
+	height: 15px; 
+    display: inline-block;
+} 
+.yellow{ 
+	background: yellow; 
+} 
+
+.green {
+  background: #70a35d; 
+}
+
+.blue {
+  background: #32a0a8;
+}
+
+.gray {
+  background: #898b91;
+}
+
+.invite-center {
+    margin:auto;
+}
+
+.centered {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .header {
+      font-weight: bold;
+      font-size: revert
+  }
+  
+  .grid-container {
+      width: 30%;
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: auto auto auto auto;
+      padding: 10px;
+  }
+  
+  .grid-item {
+      background-color: #898b91;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 15px;
+      text-align: center;
+      width: 50px;
+      height: 50px;
+      text-align: -webkit-center;
+      cursor: not-allowed;
+      pointer-events: none;
+  }
+  
+  .free {
+      background-color: #70a35d;
+      cursor: pointer;
+      pointer-events: visible;
+  }
+
+  .alreadySelected {
+    background-color: #ebde34;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .invite-disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    pointer-events: none;
+  }
+
+  .hold {
+    background-color: #32a0a8;
+}

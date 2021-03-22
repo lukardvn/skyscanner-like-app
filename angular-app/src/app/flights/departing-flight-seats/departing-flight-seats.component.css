@@ -1,0 +1,60 @@
+.centered {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header {
+    font-weight: bold;
+    font-size: revert
+}
+
+.grid-container {
+    width: 30%;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    background-color: #898b91;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    text-align: -webkit-center;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.free {
+    background-color: #70a35d;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.hold {
+    background-color: #32a0a8;
+}
+
+.box {
+    width: 15px; 
+	height: 15px; 
+    display: inline-block;
+}
+
+.green {
+    background: #70a35d; 
+}
+
+.blue {
+    background: #32a0a8;
+}
+
+.gray {
+    background: #898b91;
+}

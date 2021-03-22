@@ -151,8 +151,17 @@ namespace WebApp.Migrations
                     b.Property<int?>("DepartingFlightId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartingFlightSeatId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ReturningFlightId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("ReturningFlightSeatId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimeCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("UserReceivingId")
                         .HasColumnType("int");
@@ -164,7 +173,11 @@ namespace WebApp.Migrations
 
                     b.HasIndex("DepartingFlightId");
 
+                    b.HasIndex("DepartingFlightSeatId");
+
                     b.HasIndex("ReturningFlightId");
+
+                    b.HasIndex("ReturningFlightSeatId");
 
                     b.HasIndex("UserReceivingId");
 
@@ -183,7 +196,13 @@ namespace WebApp.Migrations
                     b.Property<int>("DepartingFlightId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartingFlightSeatId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ReturningFlightId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReturningFlightSeatId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -193,7 +212,11 @@ namespace WebApp.Migrations
 
                     b.HasIndex("DepartingFlightId");
 
+                    b.HasIndex("DepartingFlightSeatId");
+
                     b.HasIndex("ReturningFlightId");
+
+                    b.HasIndex("ReturningFlightSeatId");
 
                     b.HasIndex("UserId");
 
@@ -223,6 +246,29 @@ namespace WebApp.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Seat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FlightId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlightId");
+
+                    b.ToTable("Seats");
                 });
 
             modelBuilder.Entity("WebApp.Models.User", b =>
@@ -320,9 +366,17 @@ namespace WebApp.Migrations
                         .WithMany()
                         .HasForeignKey("DepartingFlightId");
 
+                    b.HasOne("WebApp.Models.Seat", "DepartingFlightSeat")
+                        .WithMany()
+                        .HasForeignKey("DepartingFlightSeatId");
+
                     b.HasOne("WebApp.Models.Flight", "ReturningFlight")
                         .WithMany()
                         .HasForeignKey("ReturningFlightId");
+
+                    b.HasOne("WebApp.Models.Seat", "ReturningFlightSeat")
+                        .WithMany()
+                        .HasForeignKey("ReturningFlightSeatId");
 
                     b.HasOne("WebApp.Models.User", "UserReceiving")
                         .WithMany("InvitationsReceived")
@@ -341,9 +395,17 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApp.Models.Seat", "DepartingFlightSeat")
+                        .WithMany()
+                        .HasForeignKey("DepartingFlightSeatId");
+
                     b.HasOne("WebApp.Models.Flight", "ReturningFlight")
                         .WithMany()
                         .HasForeignKey("ReturningFlightId");
+
+                    b.HasOne("WebApp.Models.Seat", "ReturningFlightSeat")
+                        .WithMany()
+                        .HasForeignKey("ReturningFlightSeatId");
 
                     b.HasOne("WebApp.Models.User", "User")
                         .WithMany("Reservations")
@@ -365,6 +427,13 @@ namespace WebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApp.Models.Seat", b =>
+                {
+                    b.HasOne("WebApp.Models.Flight", "Flight")
+                        .WithMany("Seats")
+                        .HasForeignKey("FlightId");
                 });
 
             modelBuilder.Entity("WebApp.Models.User", b =>

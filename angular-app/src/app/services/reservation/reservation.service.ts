@@ -13,8 +13,10 @@ export class ReservationService {
   private baseUrl = env.localUrl + '/Reservations';
   headers = { 'content-type': 'application/json' }
 
-  public selectedDepartingFlight: Flight = null;
-  public selectedReturningFlight: Flight = null;
+  public selectedDepartingFlight: any = null; // PROMENIO sa Flight na any
+  public selectedReturningFlight: any = null;
+  public departingFlightSeat: any; //promennjeno sa number
+  public returningFlightSeat: any;
 
   constructor(private http: HttpClient) { }
 
@@ -26,12 +28,22 @@ export class ReservationService {
     const body = JSON.stringify(reservation);
     return this.http.post(`${this.baseUrl}/AddReservation`, body, { 'headers': this.headers });
   }
+  
+  addReservationQuick(reservation: ReservationDto): Observable<any> {
+    const body = JSON.stringify(reservation);
+    return this.http.post(`${this.baseUrl}/AddReservationQuick`, body, { 'headers': this.headers });
+  }
+
+  updateSeat(seat: any): Observable<any> {
+    const body = JSON.stringify(seat);
+    return this.http.put<any>(`${this.baseUrl}/UpdateSeat`, body, {'headers': this.headers});
+  }
 
   getSingle(id: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  cancelReservation(reservationId: number) {
+  cancelReservation(reservationId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/CancelReservation/${reservationId}`);
   }
 

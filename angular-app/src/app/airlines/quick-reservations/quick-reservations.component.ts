@@ -25,14 +25,22 @@ export class QuickReservationsComponent implements OnInit {
       UserId: this.authService.currentUser.nameid
     });
 
+    /* staro
     this.reservationService.addReservation(reservation).subscribe(result => {
       console.log(result.data);  //redirect to next page...
       this.router.navigate(['/reservation-summary/success']);
       this.dialogRef.close();
     }, err => {
       console.log(err);
-    })
-  }
+    })*/ 
+    this.reservationService.addReservationQuick(reservation).subscribe(result => {
+      console.log(result.data);
+      this.reservationService.updateSeat(result.data.departingFlightSeat).subscribe();
 
-  
+      this.router.navigate(['/reservation-summary/success']);
+      this.dialogRef.close();
+    }, err => {
+      console.log(err);
+    })
+  } 
 }

@@ -32,6 +32,8 @@ import { EmailSentComponent } from '../accounts/email-sent/email-sent.component'
 import { FriendsComponent } from '../flights/friends/friends.component';
 import { ListInvitationsComponent } from '../invitations/list-invitations/list-invitations.component';
 import { InvitationDetailComponent } from '../invitations/invitation-detail/invitation-detail.component';
+import { DepartingFlightSeatsComponent } from '../flights/departing-flight-seats/departing-flight-seats.component';
+import { ReturningFlightSeatsComponent } from '../flights/returning-flight-seats/returning-flight-seats.component';
 
 export const routes: Routes = [
     { path: 'signup-form', component: SignupFormComponent, canActivate: [AnonymousGuard] },
@@ -46,7 +48,9 @@ export const routes: Routes = [
 
     { path: 'flights' , component: FlightSearchComponent, canActivate: [AuthGuard]},
     { path: 'departing-flights', component: ListDepartingFlightsComponent, canActivate: [AuthGuard] },
+    { path: 'departing-flight-seats', component: DepartingFlightSeatsComponent },
     { path: 'returning-flights', component: ListReturningFlightsComponent, canActivate: [AuthGuard] },
+    { path: 'returning-flight-seats', component: ReturningFlightSeatsComponent },
     { path: 'reservation/invite-friends', component: FriendsComponent },
     
     //{ path: 'friends/:id/list-reservations', component: FriendReservationsComponent },

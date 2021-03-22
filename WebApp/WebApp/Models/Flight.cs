@@ -21,5 +21,6 @@ namespace WebApp.Models
         public Airline Airline { get; set; }
         public bool QuickReservation { get; set; } = false;
         public List<Review> Reviews { get; set; }
+        public List<Seat> Seats { get; set; }
     }
 }

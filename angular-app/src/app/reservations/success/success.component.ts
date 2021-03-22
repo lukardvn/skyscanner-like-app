@@ -16,14 +16,17 @@ export class SuccessComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.myReservation = new ReservationDto({
+    /*this.myReservation = new ReservationDto({
       DepartingFlight: this.reservationService.selectedDepartingFlight,
       ReturningFlight: this.reservationService.selectedReturningFlight,
       UserId: this.authService.currentUser.nameid
-    });
-    
-    console.log(this.myReservation);
-  }
+    });*/ //ovo je za prethodnu verziju gde ovo prosledjujem friends-componenti
+  }  
 
-  
+  skipAndFinish(){ //ocistiti varijable iz servisa
+    this.reservationService.departingFlightSeat = null;
+    this.reservationService.returningFlightSeat = null;
+    this.reservationService.selectedDepartingFlight = null;
+    this.reservationService.selectedReturningFlight = null;
+  }
 }

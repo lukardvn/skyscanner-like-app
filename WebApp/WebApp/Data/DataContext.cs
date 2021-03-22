@@ -20,6 +20,7 @@ namespace WebApp.Data
         public DbSet<AirlineDestination> AirlineDestinations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
+        public DbSet<Seat> Seats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

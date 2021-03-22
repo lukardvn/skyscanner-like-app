@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: webapp-container
-        image: api-img
+      #image: api-img
+        image: novi-webapp
         imagePullPolicy: Never
         resources:
           limits:
@@ -51,6 +52,6 @@ spec:
   selector:
     app: webapp
   ports:
-  - port: 8080
+  - port: 8085
     targetPort: 80
   type: LoadBalancer

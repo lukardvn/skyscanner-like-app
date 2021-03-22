@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="column" *ngIf="depFlight">
+        <h3 class="header">Departing flight</h3>
+        <h3><div class="box yellow"></div> is you. Choose your friend's seat.</h3>
+        <label><div class="box gray"></div>Taken </label>
+        <label><div class="box blue"></div>On hold </label>
+        <label><div class="box green"></div>Available </label>
+        <div class="grid-container">
+            <div (click)="chooseDepSeat(seat)" [class.alreadySelected]="seat.id === depFlightSeat.id" [class.hold]="seat.state === 2"
+                                            [class.free]="seat.state === 0" *ngFor="let seat of depFlight.seats" class='grid-item'>
+                {{seat.number}}
+            </div>
+        </div>
+    </div>
+    <div class="column" *ngIf="retFlight">
+        <h3 class="header">Returning flight</h3>
+        <h3><div class="box yellow"></div> is you. Choose your friend's seat.</h3>
+        <label><div class="box gray"></div>Taken </label>
+        <label><div class="box blue"></div>On hold </label>
+        <label><div class="box green"></div>Available </label>
+        <div class="grid-container">
+            <div (click)="chooseRetSeat(seat)" [class.alreadySelected]="seat.id === retFlightSeat.id" [class.hold]="seat.state === 2"
+                                            [class.free]="seat.state === 0" *ngFor="let seat of retFlight.seats" class='grid-item'>
+                {{seat.number}}
+            </div>    
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="column" *ngIf="depFlight">
+        Selected seat <input *ngIf="this.friendsDepSeat.number !== 0" type="text" style="text-align: center;" 
+                            readonly maxlength="3" size="3" 
+                            [value]="this.friendsDepSeat.number"
+                            required> 
+    </div>
+    <div class="column" *ngIf="retFlight">
+        Selected seat <input *ngIf="this.friendsRetSeat.number !== 0" type="text" style="text-align: center;" 
+                            readonly maxlength="3" size="3" 
+                            [value]="this.friendsRetSeat.number"
+                            required> 
+    </div>
+</div>
+<div class="row">
+    <button (click)="inviteAndFinish()"
+            [routerLink]="['/home']"
+            class="invite-center btn btn-success btn-lg"
+            [class.invite-disabled]="this.friendsDepSeat.number === 0 || this.friendsRetSeat.number === 0">
+        invite & finish
+    </button>
+</div>  

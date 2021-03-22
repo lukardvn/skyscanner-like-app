@@ -16,7 +16,8 @@
             <td>{{friend.name}}</td>
             <td>{{friend.surname}}</td>
             <td>
-                <button (click)="inviteFriend($event, friend)">Invite</button>
+                <!--<button (click)="inviteFriend($event, friend)">Invite</button> STARI NACIN -->
+                <button class="btn btn-warning" (click)="inviteFriendAndShowModal(friend)">Invite</button>
             </td>
             </tr>
         </tbody>

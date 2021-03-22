@@ -25,7 +25,7 @@
           </label>
         </div>
         <div class="col-sm-6 mb-3">
-          <label>{{ invitation.departingFlight.origin }} on {{ invitation.departingFlight.takeoffTime | date:'medium'}} </label>
+          <label>from: {{ invitation.departingFlight.origin }} on {{ invitation.departingFlight.takeoffTime | date:'medium'}} </label>
         </div>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@
         </label>
       </div>
       <div class="col-sm-6 mb-3">
-        <label>{{ invitation.departingFlight.destination }} on {{ invitation.departingFlight.landingTime | date:'medium'}} </label>
+        <label>to: {{ invitation.departingFlight.destination }} on {{ invitation.departingFlight.landingTime | date:'medium'}} </label>
     </div>  
       <div class="col-sm-6 mb-3">
         <label class="label-info"> 
@@ -42,6 +42,13 @@
       </div>
       <div class="col-sm-6 mb-3">
         <label>{{ invitation.departingFlight.price | currency:'USD'}} </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>SEAT# {{ invitation.departingFlightSeat.number }} </label>
       </div>
     </div>
   </div>
@@ -58,7 +65,7 @@
         </label>
       </div>
       <div class="col-sm-6 mb-3">
-        <label>{{ invitation.returningFlight.origin }} on {{ invitation.returningFlight.takeoffTime | date:'medium'}} </label>
+        <label>from: {{ invitation.returningFlight.origin }} on {{ invitation.returningFlight.takeoffTime | date:'medium'}} </label>
       </div>   
     </div>
     <div class="row">
@@ -67,7 +74,7 @@
         </label>
       </div>
       <div class="col-sm-6 mb-3">
-        <label>{{ invitation.returningFlight.destination }} on {{ invitation.returningFlight.landingTime | date:'medium'}} </label>
+        <label>to: {{ invitation.returningFlight.destination }} on {{ invitation.returningFlight.landingTime | date:'medium'}} </label>
     </div>  
       <div class="col-sm-6 mb-3">
         <label class="label-info"> 
@@ -76,6 +83,13 @@
       <div class="col-sm-6 mb-3">
         <label> {{ invitation.returningFlight.price | currency:'USD'}} </label>
       </div> 
+      <div class="col-sm-6 mb-3">
+        <label class="label-info"> 
+        </label>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <label>SEAT# {{ invitation.returningFlightSeat.number}} </label>
+      </div>
     </div>
   </div>
 
@@ -95,8 +109,8 @@
         <label class="label-info"></label>
       </div>
       <div class="col-sm-6 mb-3">
-        <button class="btn btn-success btn-lg" (click)="acceptInvitation()" [routerLink]="['/list-reservations/']">accept</button>
-        <button style="float: right;" class="btn btn-danger btn-lg" (click)="rejectInvitation()" [routerLink]="['/list-invitations/']">reject</button>
+        <button class="btn btn-success btn-lg" (click)="acceptInvitation()" [routerLink]="['/home/']">accept</button>
+        <button style="float: right;" class="btn btn-danger btn-lg" (click)="rejectInvitation()" [routerLink]="['/home/']">reject</button>
       </div>
     </div>
   </div>

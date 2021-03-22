@@ -1,0 +1,3 @@
+p je za persistent
+sifra za microservice-server-deploy je: MojaSifra2020
+sifra za server-deploy je MojaSifra2020

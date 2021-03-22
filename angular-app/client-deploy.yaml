@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: angularapp-container
-        image: rluka996/frontend:latest
+        #image: rluka996/frontend:latest
+        image: novi-angular-app
         resources:
           limits:
             memory: "128Mi"
@@ -29,6 +30,6 @@ spec:
   selector:
     app: angularapp-pod
   ports:
-  - port: 8082
+  - port: 8081
     targetPort: 80
   type: LoadBalancer

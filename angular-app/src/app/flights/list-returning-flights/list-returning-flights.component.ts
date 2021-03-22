@@ -21,8 +21,8 @@ export class ListReturningFlightsComponent implements OnInit {
 
   select(flight: Flight) {
     this.reservationService.selectedReturningFlight = flight;
-    this.router.navigateByUrl('/reservation-summary');
-    //this.router.navigateByUrl('/reservation/invite-friends');
+    this.router.navigateByUrl('/returning-flight-seats');
+    //this.router.navigateByUrl('/reservation-summary');
   }
 
 }

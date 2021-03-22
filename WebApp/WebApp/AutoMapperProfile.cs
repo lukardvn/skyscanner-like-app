@@ -24,7 +24,7 @@ namespace WebApp
             CreateMap<AddFlightDto, Flight>();
             CreateMap<Airline, UpdateAirlineDto>();
 
-            //CreateMap<AddInvitationDto, Invitation>();
+            CreateMap<QuickReservationDto, Reservation>();
         }
     }
 }

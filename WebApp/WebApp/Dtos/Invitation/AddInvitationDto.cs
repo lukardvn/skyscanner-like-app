@@ -11,6 +11,8 @@ namespace WebApp.Dtos.Invitation
         public int UserSendingId { get; set; }
         public Models.User UserReceiving { get; set; }
         public int DepartingFlightId { get; set; }
+        public int DepartingFlightSeatId { get; set; }
         public int ReturningFlightId { get; set; }
+        public int ReturningFlightSeatId { get; set; }
     }
 }

@@ -60,6 +60,24 @@ namespace WebApp.Controllers
             return Ok(await _invitationService.DeleteInvitation(id));
         }
 
+        [HttpPut("TakeSeat")]
+        public async Task<IActionResult> TakeSeat(Seat seat)
+        {
+            return Ok(await _invitationService.TakeSeatFromHold(seat));
+        }
+
+        [HttpPut("FreeSeat")]
+        public async Task<IActionResult> FreeSeat(Seat seat)
+        {
+            return Ok(await _invitationService.FreeSeatFromHold(seat));
+        }
+
+        [HttpPut("HoldSeat")]
+        public async Task<IActionResult> HoldSeat(Seat seat)
+        {
+            return Ok(await _invitationService.HoldSeat(seat));
+        }
+
         /*[HttpPost("accept")]
         public async Task<IActionResult> Accept(Invitation invitation)
         {

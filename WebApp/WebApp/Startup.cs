@@ -26,6 +26,7 @@ using WebApp.Services.UserService;
 using Microsoft.OpenApi.Models;
 using WebApp.Configs;
 using WebApp.Services.InvitationService;
+using WebApp.Services;
 
 namespace WebApp
 {
@@ -51,14 +52,15 @@ namespace WebApp
             var server = Configuration["DBServer"] ?? "avio-sql"; //mssql-service
             var port = Configuration["DBPort"] ?? "1433";
             var user = Configuration["DBUser"] ?? "SA";
-            var password = Configuration["DBPassword"] ?? "MyPa55w0rd!";
+            var password = Configuration["DBPassword"] ?? "MojaSifra2020";
 
+            //var connString = $"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};";
             System.Console.WriteLine($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};");
+            services.AddDbContext<DataContext>(options => 
+            options.UseSqlServer($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};"));
 
-            //services.AddDbContext<DataContext>(options => 
-                //options.UseSqlServer($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};"));
-            //ovde koristimo connection string iz appsetings.json
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //LOKALNO iz appsetings.json/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddCors(options =>
                 {
@@ -80,6 +82,9 @@ namespace WebApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            // HOSTED SERVICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+            //services.AddHostedService<SharedService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -122,7 +127,7 @@ namespace WebApp
 
             app.UseRouting();
 
-            //PrepDB.PrepPopulation(app);
+            PrepDB.PrepPopulation(app);
 
             app.UseCors();
 

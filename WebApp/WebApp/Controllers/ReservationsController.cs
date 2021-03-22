@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Dtos.Reservation;
+using WebApp.Models;
 using WebApp.Services.ReservationService;
 
 namespace WebApp.Controllers
@@ -38,6 +39,24 @@ namespace WebApp.Controllers
                 return BadRequest();
 
             return Ok(await _reservationService.AddReservation(newReservation));
+        }
+
+        [HttpPost("AddReservationQuick")]
+        public async Task<IActionResult> AddQuick(QuickReservationDto newReservation)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(await _reservationService.AddReservationQuick(newReservation));
+        }
+
+        [HttpPut("UpdateSeat")]
+        public async Task<IActionResult> UpdateSeat(Seat updatedSeat)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            return Ok(await _reservationService.UpdateReservationSeatState(updatedSeat));
         }
 
         [HttpGet("{id}")] //GET localhost/Reservations/GetAll za rezervacije trenutnog korisnika
