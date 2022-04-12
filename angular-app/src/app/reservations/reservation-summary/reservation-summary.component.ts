@@ -30,11 +30,13 @@ export class ReservationSummaryComponent implements OnInit {
     let reservation = new ReservationDto({
       DepartingFlight: this.departingFlight,
       ReturningFlight: this.returningFlight,
-      UserId: this.authService.currentUser.nameid,
+      //UserId: this.authService.currentUser.nameid,
       DepartingFlightSeat: this.reservationService.departingFlightSeat,
       ReturningFlightSeat: this.reservationService.returningFlightSeat
     });
     
+    console.log(reservation);
+
     //IPAK NE BRISEM ZBOG MODALA
     //this.reservationService.departingFlightSeat = null;
     //this.reservationService.returningFlightSeat = null;

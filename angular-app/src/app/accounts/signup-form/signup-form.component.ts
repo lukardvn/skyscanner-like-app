@@ -45,8 +45,11 @@ export class SignupFormComponent implements OnInit{
       ...this.form.value
     });
 
+    console.log(newUser);
+
     //ako je result.success === false onda korisnik vec postoji
     this.userService.registerSingle(newUser).subscribe(() => {
+      console.log("usao");
       //this.userService.getAll().subscribe
       this.userExists = false;
     }, err=>{

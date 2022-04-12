@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { NewUser } from 'src/models/NewUser';
 import { User } from 'src/models/User';
 import { environment as env } from '../../../environments/environment';
 
@@ -15,6 +16,12 @@ export class UserService {
   headers = { 'content-type': 'application/json' }
 
   constructor(private http: HttpClient) { }
+
+  createUser(user: NewUser) : Observable<any> {
+    const body = JSON.stringify(user);
+    return this.http.post(this.baseUrl + this.userRoute, body, {'headers': this.headers });
+  }
+
 
   getAll(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}${this.userRoute}/GetAll`);

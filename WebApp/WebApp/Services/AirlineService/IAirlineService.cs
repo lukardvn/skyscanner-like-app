@@ -17,5 +17,6 @@ namespace WebApp.Services.AirlineService
         Task<ServiceResponse<List<Airline>>> GetAllAirlines();
         Task<ServiceResponse<Airline>> GetSingle(int id);
         Task<ServiceResponse<double>> GetAvgRating(int id);
+        Task<ServiceResponse<bool>> AddAdminToAirline(UserAirlineDto userAirline);
     }
 }

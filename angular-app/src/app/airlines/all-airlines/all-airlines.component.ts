@@ -18,7 +18,7 @@ export class AllAirlinesComponent implements OnInit {
       this.airlines = [...result.data];
     }, err => {
       console.log(err);
-    })
+    });
   }
 
   showMapModal(address) {

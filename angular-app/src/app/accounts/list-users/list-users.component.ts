@@ -2,7 +2,7 @@ import { AuthService } from './../../services/auth/auth.service';
 import { Component, OnInit, ChangeDetectorRef, Input, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { FriendshipService } from 'src/app/services/friendship/friendship.service';
-
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 
@@ -13,8 +13,9 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class ListUsersComponent implements OnInit {
   users: any;
-  currentId = this.authService.currentUser.nameid;
+  //currentId = this.authService.currentUser.nameid;
   usersToShow;
+  currentUser;
 
   public displayedColumns: string[] = ['id', 'email', 'name', 'surname', 'city', 'phoneNumber', "actions", "actions2"];
   dataSource;
@@ -24,10 +25,16 @@ export class ListUsersComponent implements OnInit {
   constructor(private userService: UserService,
               private authService: AuthService,
               private friendshipService: FriendshipService,
-              private _cdr: ChangeDetectorRef) { }
+              private _cdr: ChangeDetectorRef,
+              private auth: Auth0Service) { }
 
   ngOnInit(): void {
+    this.auth.user$.subscribe(result => {
+      this.currentUser = result;
+    });
+
     this.userService.getAll().subscribe(result => {
+      console.log(result);
       this.users = [...result.data];;
 
       this.dataSource = new MatTableDataSource(this.users);
@@ -50,7 +57,7 @@ export class ListUsersComponent implements OnInit {
 
   addFriend(id){
     let fs = {
-      UserId1: this.currentId,
+      //UserId1: this.currentId,
       UserId2: id
     };
 

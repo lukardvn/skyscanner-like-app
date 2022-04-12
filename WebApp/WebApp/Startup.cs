@@ -27,6 +27,9 @@ using Microsoft.OpenApi.Models;
 using WebApp.Configs;
 using WebApp.Services.InvitationService;
 using WebApp.Services;
+using System.Security.Claims;
+using WebApp.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp
 {
@@ -55,12 +58,12 @@ namespace WebApp
             var password = Configuration["DBPassword"] ?? "MojaSifra2020";
 
             //var connString = $"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};";
-            System.Console.WriteLine($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};");
-            services.AddDbContext<DataContext>(options => 
-            options.UseSqlServer($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};"));
+            //System.Console.WriteLine($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};");
+            //services.AddDbContext<DataContext>(options => 
+            //options.UseSqlServer($"Server={server},{port};Initial Catalog='AvioDb';User ID={user};Password={password};"));
 
             //LOKALNO iz appsetings.json/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddCors(options =>
                 {
@@ -88,7 +91,9 @@ namespace WebApp
 
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+            //lokalna, moja implementirana autentifikacija
+            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -99,7 +104,32 @@ namespace WebApp
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                });*/
+
+            //auth0 autentifikacija
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = domain;
+                    options.Audience = Configuration["Auth0:Audience"];
+                    // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`. Map it to a different claim by setting the NameClaimType below.
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = ClaimTypes.NameIdentifier
+                    };
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read:flights", policy => policy.Requirements.Add(new HasScopeRequirement("read:flights", domain)));
+                options.AddPolicy("edit:airlines", policy => policy.Requirements.Add(new HasScopeRequirement("edit:airlines", domain)));
+
+            });
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            
+
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFlightService, FlightService>();
             services.AddScoped<IReservationService, ReservationService>();
@@ -127,7 +157,7 @@ namespace WebApp
 
             app.UseRouting();
 
-            PrepDB.PrepPopulation(app);
+           // PrepDB.PrepPopulation(app); DOCKER KUB
 
             app.UseCors();
 

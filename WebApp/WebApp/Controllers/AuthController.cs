@@ -40,7 +40,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut("Confirm/{id}")]
-        public async Task<IActionResult> ConfirmEmail([FromRoute] int id)
+        public async Task<IActionResult> ConfirmEmail([FromRoute]int id)
         {
             await _authRepo.ConfirmEmail(id);
             return Ok();

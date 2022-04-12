@@ -1,78 +1,80 @@
+<div *ngIf="this.airline">
+  <div class="col-md-8 order-md-1">  
+      <form class="needs-validation" [formGroup]="form"  (ngSubmit)="saveChanges()">     
+        <h2 class="mb-3">Airline info 
+          <button type="button" class="btn btn-link" (click)="showDestinationsModal(airline.airlineDestinations)">destinations</button>
+          <button type="button" class="btn btn-link" (click)="showAddDestinationModal()">add new destination</button>
+          <button type="button" class="btn btn-link" (click)="showFlightsModal(airline.flights)">existing flights</button>
+          <button type="button" class="btn btn-link" (click)="showAddFlightModal()">add new flight</button>
+        </h2>        
+      <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name">name</label>
+            <input 
+              formControlName="name"
+              type="text" 
+              class="form-control" 
+              id="name" 
+              placeholder="" 
+              value="" required>
+            <div class="invalid-feedback">
+              Valid name is required.
+            </div>
+          </div>
 
-<div class="col-md-8 order-md-1">
-    
-    <form class="needs-validation" [formGroup]="form"  (ngSubmit)="saveChanges()">     
-      <h2 class="mb-3">Airline info 
-        <button type="button" class="btn btn-link" (click)="showDestinationsModal(airline.airlineDestinations)">destinations</button>
-        <button type="button" class="btn btn-link" (click)="showAddDestinationModal()">add new destination</button>
-        <button type="button" class="btn btn-link" (click)="showFlightsModal(airline.flights)">existing flights</button>
-        <button type="button" class="btn btn-link" (click)="showAddFlightModal()">add new flight</button>
-      </h2>        
-    <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="name">name</label>
+          <div class="col-md-6 mb-3">
+            <label for="address">address </label>
+            <input 
+              formControlName="address"
+              type="text" 
+              class="form-control" 
+              id="address" 
+              placeholder="" 
+              value="" required>
+            <div class="invalid-feedback">
+              Valid address is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">promo description</label>
+          <textarea 
+              style="padding-top: 1%;"
+              type="text"
+              formControlName="description"
+              class="form-control" 
+              id="description" 
+              placeholder="" 
+              required
+              rows="5">
+          </textarea>
+          <div class="invalid-feedback">
+              Please enter a valid description.
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="baggagePrice">checked baggage price (per flight in USD)</label>
           <input 
-            formControlName="name"
+            formControlName="baggagePrice"
             type="text" 
             class="form-control" 
-            id="name" 
+            id="baggagePrice" 
             placeholder="" 
-            value="" required>
+            value="" 
+            style="width: 10%;"
+            required>
           <div class="invalid-feedback">
-            Valid name is required.
+            Baggage price is required.
           </div>
         </div>
-
-        <div class="col-md-6 mb-3">
-          <label for="address">address </label>
-          <input 
-            formControlName="address"
-            type="text" 
-            class="form-control" 
-            id="address" 
-            placeholder="" 
-            value="" required>
-          <div class="invalid-feedback">
-            Valid address is required.
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="description">promo description</label>
-        <textarea 
-            style="padding-top: 1%;"
-            type="text"
-            formControlName="description"
-            class="form-control" 
-            id="description" 
-            placeholder="" 
-            required
-            rows="5">
-        </textarea>
-        <div class="invalid-feedback">
-            Please enter a valid description.
-          </div>
-      </div>
-
-      <div class="form-group">
-        <label for="baggagePrice">checked baggage price (per flight in USD)</label>
-        <input 
-          formControlName="baggagePrice"
-          type="text" 
-          class="form-control" 
-          id="baggagePrice" 
-          placeholder="" 
-          value="" 
-          style="width: 10%;"
-          required>
-        <div class="invalid-feedback">
-          Baggage price is required.
-        </div>
-      </div>
-
-    <hr class="mb-4">
-    <button *ngIf="!changed" class="btn btn-primary btn-lg btn-block">Save Changes</button>
-    <p *ngIf="changed">Changes have been saved.</p>
-  </form>
+      <hr class="mb-4">
+      <button *ngIf="!changed" class="btn btn-primary btn-lg btn-block">Save Changes</button>
+      <p *ngIf="changed">Changes have been saved.</p>
+    </form>
+  </div>
+</div>
+<div *ngIf="this.airline === null">
+  <h3>You are currently not admin of any airlines.</h3>
 </div>

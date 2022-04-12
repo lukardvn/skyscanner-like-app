@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/models/User';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,7 +18,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(private userService: UserService,
               private fb: FormBuilder,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private auth0Service: Auth0Service) { }
 
   ngOnInit(){
     this.generateForm();

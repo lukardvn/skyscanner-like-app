@@ -1,0 +1,7 @@
+{
+    "domain": "dev-xnz0-ame.eu.auth0.com",
+    "clientId": "Bw7eidf914oY7n2ARGIRrjBZ64Hat4qH",
+    "audience": "https://skyscanner/api",
+    "serverUrl": "https://localhost:44383",
+    "redirectUri": "http://localhost:4200/auth-redirect"
+}

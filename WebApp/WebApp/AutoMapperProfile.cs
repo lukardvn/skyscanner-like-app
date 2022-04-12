@@ -19,6 +19,7 @@ namespace WebApp
         {
             CreateMap<User, GetUserDto>();
             CreateMap<AddUserDto, User>();
+            CreateMap<NewUserDto, User>();
             CreateMap<AddReservationDto, Reservation>();
             CreateMap<User, FriendUserDto>();
             CreateMap<AddFlightDto, Flight>();

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AirlineService } from 'src/app/services/airline/airline.service';
-import { Airline } from 'src/models/Airline';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AirlineDestinationsEditComponent } from '../airline-destinations-edit/airline-destinations-edit.component';
 import { AirlineFlightsEditComponent } from '../airline-flights-edit/airline-flights-edit.component';
 import { AddFlightComponent } from 'src/app/flights/add-flight/add-flight.component';
-import { AddDestinationComponent } from 'src/app/destinations/add-destination/add-destination.component';
+import { AirlineDestinationsAddComponent } from '../airline-destinations-add/airline-destinations-add.component';
 
 @Component({
   selector: 'app-airline-edit',
@@ -27,9 +26,10 @@ export class AirlineEditComponent implements OnInit {
     this.generateForm();
     this.airlineService.getMine().subscribe(result => {
       this.airline = result.data;
-      console.log(this.airline);
-      this.airlineService.availableAirlineDestinations = result.data.airlineDestinations; //sve destinacije OVE kompanije
-      this.populateFields();
+      if (this.airline !== null) {
+        this.airlineService.availableAirlineDestinations = result.data.airlineDestinations; //sve destinacije OVE kompanije
+        this.populateFields();
+      }
     }, err=> {
       console.log(err);
     })
@@ -57,7 +57,6 @@ export class AirlineEditComponent implements OnInit {
   saveChanges() {
     this.setProperties(); 
     this.airlineService.updateSingle(this.airline).subscribe(result => {
-      console.log(result);
       if (result.success === true)
         this.changed = true;
       else
@@ -114,6 +113,6 @@ export class AirlineEditComponent implements OnInit {
     dialogConfig.width = "70%";
     dialogConfig.position = { top: '10%' };
     dialogConfig.data = this.airline.id;
-    this.dialog.open(AddDestinationComponent, dialogConfig);
+    this.dialog.open(AirlineDestinationsAddComponent, dialogConfig);
   }
 }

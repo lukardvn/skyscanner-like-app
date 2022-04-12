@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class UserProfileComponent implements OnInit {
   user: any = {};
-  currentId = this.authService.currentUser.nameid;
+  //currentId = this.authService.currentUser.nameid;
   ifFriend;
   alreadySent;
 
@@ -38,7 +38,7 @@ export class UserProfileComponent implements OnInit {
 
   addFriend(user) {
     let fs = {
-      UserId1: this.currentId,
+      //UserId1: this.currentId,
       UserId2: user.id
     };
 

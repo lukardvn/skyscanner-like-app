@@ -8,6 +8,7 @@ namespace WebApp.Models
 {
     public class Review
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         public User User { get; set; }

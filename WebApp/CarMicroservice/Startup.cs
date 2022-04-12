@@ -35,11 +35,11 @@ namespace CarMicroservice
             var password = Configuration["DBPassword"] ?? "MyPassword2020";
             System.Console.WriteLine($"Server={server},{port};Initial Catalog='CarDb';User ID={user};Password={password};");
 
-            services.AddDbContext<DataContext>(options =>
-                                        options.UseSqlServer($"Server={server},{port};Initial Catalog='CarDb';User ID={user};Password={password};"));
+            //services.AddDbContext<DataContext>(options =>
+                                        //options.UseSqlServer($"Server={server},{port};Initial Catalog='CarDb';User ID={user};Password={password};"));
 
             // LOKALNO
-            //services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
             services.AddScoped<ICarService, CarService>();
@@ -75,7 +75,7 @@ namespace CarMicroservice
 
             app.UseRouting();
 
-            PrepDB.PrepPopulation(app);
+            //PrepDB.PrepPopulation(app); DOCKER KUB
 
             app.UseAuthorization();
 

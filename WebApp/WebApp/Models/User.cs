@@ -11,18 +11,20 @@ namespace WebApp.Models
     public class User
     {
         public int Id { get; set; }
+        //public string User_id  { get; set; }
+        public string ExternalId { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        public string Password { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        //public string Password { get; set; }
+        //public byte[] PasswordHash { get; set; }
+        //public byte[] PasswordSalt { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Surname { get; set; }
         [Required]
-        public string  City { get; set; }
+        public string City { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
         public List<Reservation> Reservations { get; set; }

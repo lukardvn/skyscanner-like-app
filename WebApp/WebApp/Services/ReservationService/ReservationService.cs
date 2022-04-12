@@ -31,8 +31,8 @@ namespace WebApp.Services.ReservationService
         }
 
         //da bismo dobavili trenutnog korisnika
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+        //private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string GetUserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         public async Task<ServiceResponse<List<Reservation>>> GetAllReservations()
         {   //dobavlja sve rezervacije TRENUTNOG korisnika
             ServiceResponse<List<Reservation>> serviceResponse = new ServiceResponse<List<Reservation>>();
@@ -40,7 +40,7 @@ namespace WebApp.Services.ReservationService
             {
                 List<Reservation> dbReservations = await _context.Reservations
                             .Include(r => r.User).Include(r => r.DepartingFlight).Include(r => r.ReturningFlight)
-                            .Where(r => r.User.Id == GetUserId()).ToListAsync();
+                            .Where(r => r.User.ExternalId == GetUserId()).ToListAsync();
                 serviceResponse.Data = dbReservations;
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace WebApp.Services.ReservationService
                 }*/
                 #endregion nzm
 
-                User user = await _context.Users.Include(u => u.Reservations).FirstOrDefaultAsync(u => u.Id == GetUserId());
+                User user = await _context.Users.Include(u => u.Reservations).FirstOrDefaultAsync(u => u.ExternalId == GetUserId());
                 newReservation.User = user;
 
                 // OVO JE NOVO
@@ -302,7 +302,7 @@ namespace WebApp.Services.ReservationService
 
             try
             {
-                User user = await _context.Users.Include(u => u.Reservations).FirstOrDefaultAsync(u => u.Id == GetUserId());
+                User user = await _context.Users.Include(u => u.Reservations).FirstOrDefaultAsync(u => u.ExternalId == GetUserId());
                 newReservation.User = user;
 
                 Flight depFlight = await _context.Flights.AsNoTracking().Include(f => f.Seats).FirstOrDefaultAsync(f => f.Id == newReservation.DepartingFlight.Id);

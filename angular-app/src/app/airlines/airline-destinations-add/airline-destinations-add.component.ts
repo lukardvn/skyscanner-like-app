@@ -1,15 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DestinationService } from 'src/app/services/destination/destination.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Destination } from 'src/models/Destination';
 import { AirlineService } from 'src/app/services/airline/airline.service';
 
 @Component({
-  selector: 'app-add-destination',
-  templateUrl: './add-destination.component.html',
-  styleUrls: ['./add-destination.component.css']
+  selector: 'app-airline-destinations-add',
+  templateUrl: './airline-destinations-add.component.html',
+  styleUrls: ['./airline-destinations-add.component.css']
 })
-export class AddDestinationComponent implements OnInit {
+export class AirlineDestinationsAddComponent implements OnInit {
   destinations;
   selectedDestination: any;
   alreadyContains;;

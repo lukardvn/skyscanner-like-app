@@ -1,0 +1,6 @@
+<div class="center-narrow">
+    <h2>Add admins to different airlines: </h2>
+    <li style="list-style-type: none;" *ngFor="let airline of airlines">
+        <button type="button" class="btn btn-link" (click)="showAirlineAdminsModal(airline)">{{ airline.name }}</button>
+    </li>
+</div>

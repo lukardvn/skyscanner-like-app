@@ -11,6 +11,7 @@ namespace WebApp.Data
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
@@ -18,27 +19,14 @@ namespace WebApp.Data
         public DbSet<Airline> Airlines { get; set; }
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<AirlineDestination> AirlineDestinations { get; set; }
-        public DbSet<Review> Reviews { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
         public DbSet<Seat> Seats { get; set; }
 
+        //public DbSet<Account> Accounts { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<Friendship>() OVO AKO JE OK DA IMAM 2 LISTE PRIJATELJA U SVAKOM KORISNIKU
-                .HasKey(fs => new { fs.UserId1, fs.UserId2 });
-            modelBuilder.Entity<Friendship>()
-                .HasOne(fs => fs.User1)
-                .WithMany(u => u.FriendsWith)
-                .HasForeignKey(fs => fs.UserId1)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Friendship>()
-                .HasOne(fs => fs.User2)
-                .WithMany(u => u.FriendsOf)
-                .HasForeignKey(fs => fs.UserId2);
-            Note that in both cases you have to turn the delete cascade off for at least one of the 
-            relationships and manually delete the related join entities before deleting the main 
-            entity, because self referencing relationships always introduce possible cycles or 
-            multiple cascade path issue, preventing the usage of cascade delete.*/
             modelBuilder.Entity<Friendship>()
                 .HasKey(fs => new { fs.UserId1, fs.UserId2 });
             modelBuilder.Entity<Friendship>()
@@ -54,6 +42,23 @@ namespace WebApp.Data
             modelBuilder.Entity<AirlineDestination>()
                 .HasKey(cs => new { cs.AirlineId, cs.DestinationId });
 
+
+
+            /*modelBuilder.Entity<Friendship>() OVO AKO JE OK DA IMAM 2 LISTE PRIJATELJA U SVAKOM KORISNIKU
+                .HasKey(fs => new { fs.UserId1, fs.UserId2 });
+            modelBuilder.Entity<Friendship>()
+                .HasOne(fs => fs.User1)
+                .WithMany(u => u.FriendsWith)
+                .HasForeignKey(fs => fs.UserId1)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Friendship>()
+                .HasOne(fs => fs.User2)
+                .WithMany(u => u.FriendsOf)
+                .HasForeignKey(fs => fs.UserId2);
+            Note that in both cases you have to turn the delete cascade off for at least one of the 
+            relationships and manually delete the related join entities before deleting the main 
+            entity, because self referencing relationships always introduce possible cycles or 
+            multiple cascade path issue, preventing the usage of cascade delete.*/
         }
 
     }

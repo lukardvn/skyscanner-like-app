@@ -5,6 +5,7 @@ import { Review } from 'src/models/Review';
 import { User } from 'src/models/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { FlightService } from 'src/app/services/flight/flight.service';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-reservation-detail',
@@ -19,20 +20,22 @@ export class ReservationDetailComponent implements OnInit {
   review = false;
   review2 = false;
 
+  auth0Id;
+
   constructor(private reservationService: ReservationService,
               private route: ActivatedRoute,
               private router: Router,
               private authService: AuthService,
-              private flightService: FlightService) { }
+              private flightService: FlightService,
+              private auth: Auth0Service) { }
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');
+
     this.reservationService.getSingle(+id).subscribe(result => {
       this.reservation = result.data;
       this.finished1 = this.compareDate(new Date(), this.reservation.departingFlight.landingTime);
       this.review = this.alreadyLeftReview(this.reservation.departingFlight.reviews);
-
-      console.log(this.reservation);
 
       if (this.reservation.returningFlight !== null){
         this.finished2 = this.compareDate(new Date(), this.reservation.returningFlight.landingTime);
@@ -99,10 +102,18 @@ export class ReservationDetailComponent implements OnInit {
   }
 
   alreadyLeftReview(reviews){
-    let currentId = +this.authService.currentUser.nameid;
-    if (reviews.filter(r => r.user.id === currentId).length > 0){
+    this.auth.user$.subscribe(result => {
+      this.auth0Id = result['sub'];
+    })
+
+    console.log(reviews); //ovde bi trebalo da poredim samo r.user.externalId === auth0Id
+    if (reviews.filter(r => r.user.externalId === this.auth0Id).length > 0){
       return true;
     }
+    /*let currentId = +this.authService.currentUser.nameid;
+    if (reviews.filter(r => r.user.id === currentId).length > 0){
+      return true;
+    }*/
     else 
       return false;
 

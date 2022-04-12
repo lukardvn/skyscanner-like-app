@@ -54,7 +54,7 @@ export class InvitationDepartingSeatsComponent implements OnInit {
   inviteAndFinish() { // ovde bih trebalo da ocistim reservationService varijable... i zapravo posaljem pozivnicu
     //poslati pozivnicu, zatvoriti modal...
     let invite = new InvitationDto({
-      UserSendingId: + this.authService.currentUser.nameid,
+      //UserSendingId: + this.authService.currentUser.nameid,
       UserReceiving: this.data,
       DepartingFlightId: this.reservationService.selectedDepartingFlight.id,
       ReturningFlightId: this.reservationService.selectedReturningFlight ? this.reservationService.selectedReturningFlight.id : 0,

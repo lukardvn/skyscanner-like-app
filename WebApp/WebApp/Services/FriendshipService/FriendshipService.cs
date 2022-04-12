@@ -29,7 +29,8 @@ namespace WebApp.Services.FriendshipService
             _httpContextAccessor = httpContextAccessor;
             _context = context;
         }
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string GetUserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         public async Task<ServiceResponse<User>> AddFriend(AddFriendshipDto newFriendship)  //User1 is trying to add User2
         {
             ServiceResponse<User> response = new ServiceResponse<User>();
@@ -43,7 +44,8 @@ namespace WebApp.Services.FriendshipService
                 #endregion dvapristupa_contextu
                 var usersDb = await _context.Users.ToListAsync();
                 //isti korisnik je ulogovan i pokusava da posalje zahtev
-                User userSendingRequest = usersDb.FirstOrDefault(u => u.Id == GetUserId() && u.Id == newFriendship.UserId1);
+                //User userSendingRequest = usersDb.FirstOrDefault(u => u.Id == GetUserId() && u.Id == newFriendship.UserId1);
+                User userSendingRequest = usersDb.FirstOrDefault(u => u.ExternalId == GetUserId());
                 if (userSendingRequest == null)
                 {
                     response.Success = false;
@@ -79,14 +81,19 @@ namespace WebApp.Services.FriendshipService
 
             return response;
         }
-        public async Task<ServiceResponse<List<FriendUserDto>>> GetConfirmedFriends([Optional] int id)
+        public async Task<ServiceResponse<List<FriendUserDto>>> GetConfirmedFriends([Optional]int id)
         {
             ServiceResponse<List<FriendUserDto>> serviceResponse = new ServiceResponse<List<FriendUserDto>>();
             try
             {
                 int currentId;
-                if (id == 0)
-                    currentId = GetUserId();
+                //string currentId;
+                if (id == 0)                 //if (id == "")
+                {
+                    var currentExternalId = GetUserId();
+                    User user = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId.Equals(currentExternalId));
+                    currentId = user.Id;
+                }
                 else
                     currentId = id;
 
@@ -140,10 +147,12 @@ namespace WebApp.Services.FriendshipService
             ServiceResponse<List<Friendship>> serviceResponse = new ServiceResponse<List<Friendship>>();
             try
             {
+                User dbUserReceiving = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId.Equals(GetUserId()));
+
                 List<Friendship> dbFriendships = await _context.Friendships
                                                     .Where(fs => fs.Status == 0)    //samo nepotvrdjena prijateljstva
                                                     .Include(fs => fs.User1).Include(fs => fs.User2)    //ako treba da pristupimo objektima
-                                                    .Where(fs => fs.UserId2 == GetUserId()).ToListAsync(); //tamo gde je currentUser user2=> primljeni zahtevi za prijateljstvo
+                                                    .Where(fs => fs.UserId2 == dbUserReceiving.Id).ToListAsync(); //tamo gde je currentUser user2=> primljeni zahtevi za prijateljstvo
                 serviceResponse.Data = dbFriendships.ToList();
             }
             catch (Exception ex)
@@ -159,10 +168,12 @@ namespace WebApp.Services.FriendshipService
             ServiceResponse<List<Friendship>> serviceResponse = new ServiceResponse<List<Friendship>>();
             try
             {
+                User dbUserSending = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId.Equals(GetUserId()));
+
                 List<Friendship> dbFriendships = await _context.Friendships
                                                     .Where(fs => fs.Status == 0)    //samo nepotvrdjena prijateljstva
                                                     .Include(fs => fs.User1).Include(fs => fs.User2)    //ako treba da pristupimo objektimaa
-                                                    .Where(fs => fs.UserId1 == GetUserId()).ToListAsync(); //tamo gde je currentUser user1=> poslati zahtevi za prijateljstvo
+                                                    .Where(fs => fs.UserId1 == dbUserSending.Id).ToListAsync(); //tamo gde je currentUser user1=> poslati zahtevi za prijateljstvo
                 serviceResponse.Data = dbFriendships.ToList();
             }
             catch (Exception ex)
@@ -178,8 +189,8 @@ namespace WebApp.Services.FriendshipService
             ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
             try
             {
-                Friendship dbFriendship = await _context.Friendships
-                                                        .FirstOrDefaultAsync(fs => fs.UserId2 == GetUserId() && fs.UserId1 == response.UserId1 && fs.Status == 0);
+                Friendship dbFriendship = await _context.Friendships.Include(fs => fs.User1).Include(fs => fs.User2)
+                                                        .FirstOrDefaultAsync(fs => fs.User2.ExternalId == GetUserId() && fs.UserId1 == response.UserId1 && fs.Status == 0);
                 if (dbFriendship != null)
                 {
                     int newStatus = response.Decision ? 1 : 0;
@@ -220,11 +231,11 @@ namespace WebApp.Services.FriendshipService
 
             try
             {
-                Friendship fs = await _context.Friendships.FirstOrDefaultAsync(fs => fs.UserId1 == GetUserId() && fs.UserId2 == id);
+                Friendship fs = await _context.Friendships.Include(fs => fs.User1).FirstOrDefaultAsync(fs => fs.User1.ExternalId == GetUserId() && fs.UserId2 == id);
 
                 if (fs == null)
                 {
-                    fs = await _context.Friendships.FirstOrDefaultAsync(fs => fs.UserId2 == GetUserId() && fs.UserId1 == id);
+                    fs = await _context.Friendships.Include(fs => fs.User2).FirstOrDefaultAsync(fs => fs.User2.ExternalId == GetUserId() && fs.UserId1 == id);
                 }
 
                 if (fs == null)
@@ -251,10 +262,10 @@ namespace WebApp.Services.FriendshipService
         {
             ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
 
-            int currentId = GetUserId();
-            Friendship dbFriendship = await _context.Friendships.FirstOrDefaultAsync(fs => fs.Status == 1 && fs.UserId1 == currentId && fs.UserId2 == userId);
+            var currentId = GetUserId();
+            Friendship dbFriendship = await _context.Friendships.Include(fs => fs.User1).FirstOrDefaultAsync(fs => fs.Status == 1 && fs.User1.ExternalId == currentId && fs.UserId2 == userId);
             if (dbFriendship == null) 
-                dbFriendship = await _context.Friendships.FirstOrDefaultAsync(fs => fs.Status == 1 && fs.UserId2 == currentId && fs.UserId1 == userId);
+                dbFriendship = await _context.Friendships.Include(fs => fs.User2).FirstOrDefaultAsync(fs => fs.Status == 1 && fs.User2.ExternalId == currentId && fs.UserId1 == userId);
 
             if (dbFriendship == null)
                 serviceResponse.Data = false;

@@ -1,2 +1,7 @@
-<app-navigation-bar>  <!--unutar app-navigation-bar je router-outlet-->
-</app-navigation-bar>
+<div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+    <h2>Loading ...</h2>
+</div>
+<ng-template #loaded>
+    <app-navigation-bar>  <!--unutar app-navigation-bar je router-outlet-->
+    </app-navigation-bar>
+</ng-template>

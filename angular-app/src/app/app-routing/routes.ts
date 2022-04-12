@@ -1,6 +1,5 @@
 import { SentRequestsComponent } from './../friendships/sent-requests/sent-requests.component';
 import { ReceivedRequestsComponent } from './../friendships/received-requests/received-requests.component';
-import { CommonModule } from '@angular/common';
 import { ListFriendsComponent } from './../friendships/list-friends/list-friends.component';
 import { SuccessComponent } from './../reservations/success/success.component';
 import { ReservationSummaryComponent } from './../reservations/reservation-summary/reservation-summary.component';
@@ -34,47 +33,62 @@ import { ListInvitationsComponent } from '../invitations/list-invitations/list-i
 import { InvitationDetailComponent } from '../invitations/invitation-detail/invitation-detail.component';
 import { DepartingFlightSeatsComponent } from '../flights/departing-flight-seats/departing-flight-seats.component';
 import { ReturningFlightSeatsComponent } from '../flights/returning-flight-seats/returning-flight-seats.component';
+import { ProfileComponent } from '../auth/profile/profile.component';
+import { AuthRedirectComponent } from '../shared/auth-redirect/auth-redirect.component';
+
+import { AuthGuard as Auth0Guard } from '@auth0/auth0-angular';
+import { TestComponent } from '../shared/test/test.component';
+import { AirlineAdminsComponent } from '../airlines/airline-admins/airline-admins.component';
 
 export const routes: Routes = [
+    { path: 'test', component: TestComponent },
+
+    { path: 'auth-redirect', component: AuthRedirectComponent },
+    
     { path: 'signup-form', component: SignupFormComponent, canActivate: [AnonymousGuard] },
     { path: 'login-form', component: LoginFormComponent, canActivate: [AnonymousGuard] },
-    { path: 'edit-profile/:id', component: EditProfileComponent, canActivate: [AuthGuard] },
-    { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard] },
-    { path: 'list-users', component: ListUsersComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+    { path: 'edit-profile/:id', component: EditProfileComponent, canActivate: [Auth0Guard] },
+    { path: 'edit-profile', component: EditProfileComponent, canActivate: [Auth0Guard] },
+    //{ path: 'list-users', component: ListUsersComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+    { path: 'list-users', component: ListUsersComponent, canActivate: [Auth0Guard] },
     { path: 'home', component: HomeComponent},
     { path: 'no-access', component: NoAccessComponent },
     { path: 'email-sent', component: EmailSentComponent },
     { path: 'confirm/:id', component: EmailConfirmedComponent },
+    { path: 'profile', component: ProfileComponent,  canActivate: [Auth0Guard]},
 
-    { path: 'flights' , component: FlightSearchComponent, canActivate: [AuthGuard]},
-    { path: 'departing-flights', component: ListDepartingFlightsComponent, canActivate: [AuthGuard] },
+    { path: 'flights' , component: FlightSearchComponent, canActivate: [Auth0Guard]},
+    { path: 'departing-flights', component: ListDepartingFlightsComponent, canActivate: [Auth0Guard] },
     { path: 'departing-flight-seats', component: DepartingFlightSeatsComponent },
-    { path: 'returning-flights', component: ListReturningFlightsComponent, canActivate: [AuthGuard] },
+    { path: 'returning-flights', component: ListReturningFlightsComponent, canActivate: [Auth0Guard] },
     { path: 'returning-flight-seats', component: ReturningFlightSeatsComponent },
     { path: 'reservation/invite-friends', component: FriendsComponent },
     
     //{ path: 'friends/:id/list-reservations', component: FriendReservationsComponent },
-    { path: 'list-reservations/:id',  component: ReservationDetailComponent, canActivate: [AuthGuard] },
-    { path: 'list-reservations',  component: ListReservationsComponent, canActivate: [AuthGuard] },
-    { path: 'reservation-summary', component: ReservationSummaryComponent, canActivate: [AuthGuard]},
-    { path: 'reservation-summary/success', component: SuccessComponent, canActivate: [AuthGuard]},
+    { path: 'list-reservations/:id',  component: ReservationDetailComponent, canActivate: [Auth0Guard] },
+    { path: 'list-reservations',  component: ListReservationsComponent, canActivate: [Auth0Guard] },
+    { path: 'reservation-summary', component: ReservationSummaryComponent, canActivate: [Auth0Guard]},
+    { path: 'reservation-summary/success', component: SuccessComponent, canActivate: [Auth0Guard]},
 
     //{ path: 'friends/:id/list-friends', component: FriendFriendsComponent},
-    { path: 'friends', component: ListFriendsComponent, canActivate: [AuthGuard] },
-    { path: 'friends/requests-received', component: ReceivedRequestsComponent, canActivate: [AuthGuard] },
-    { path: 'friends/requests-sent', component: SentRequestsComponent, canActivate: [AuthGuard] },
+    { path: 'friends', component: ListFriendsComponent, canActivate: [Auth0Guard] },
+    { path: 'friends/requests-received', component: ReceivedRequestsComponent, canActivate: [Auth0Guard] },
+    { path: 'friends/requests-sent', component: SentRequestsComponent, canActivate: [Auth0Guard] },
 
     { path: 'accounts/all', component: AllAccountsComponent },
     { path: 'accounts/profile/:id', component: UserProfileComponent },
 
-    { path: 'airlines/my-airline', component: AirlineEditComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+    //{ path: 'airlines/my-airline', component: AirlineEditComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+    { path: 'airlines/my-airline', component: AirlineEditComponent, canActivate: [Auth0Guard] }, //DODATI I ADMIN AUTH GUARD
     { path: 'airlines/all', component: AllAirlinesComponent},
     { path: 'airline/map', component: AirlineMapComponent },
-    { path: 'airlines/:id', component: AirlineDetailComponent},
+    { path: 'airlines/:id', component: AirlineDetailComponent },
+    { path: 'airlines-admins', component: AirlineAdminsComponent },
 
     { path: 'cars/all', component: AllCarsComponent },
     { path: 'cars/:id', component: CarComponent },
 
     { path: 'list-invitations', component: ListInvitationsComponent },
     { path: 'list-invitations/:id', component: InvitationDetailComponent }
+
 ];

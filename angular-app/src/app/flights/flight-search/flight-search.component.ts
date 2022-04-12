@@ -40,6 +40,8 @@ export class FlightSearchComponent implements OnInit {
     this.flightService.getFiltered(this.form.value).subscribe(result => {
       this.flightService.departingFlights = [...result.data.departingFlights];
       this.flightService.returningFlights = [...result.data.returningFlights];
+
+      console.log(result.data);
       
       this.router.navigateByUrl('/departing-flights');
     }, err=>{

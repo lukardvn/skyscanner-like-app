@@ -26,7 +26,8 @@ namespace WebApp.Services.InvitationService
             _httpContextAccessor = httpContextAccessor;
         }
 
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string GetUserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
         public async Task<ServiceResponse<Invitation>> CreateInvitation(AddInvitationDto newInvitation) 
                                                 //UserSendingID, UserReceiving, DepFlightID, DepartingFlightSeatId, RetFlightID, ReturningFLightSeatId
@@ -35,7 +36,8 @@ namespace WebApp.Services.InvitationService
 
             try 
             {
-                User userSending = await _context.Users.FirstOrDefaultAsync(u => u.Id == newInvitation.UserSendingId);
+                //User userSending = await _context.Users.FirstOrDefaultAsync(u => u.Id == newInvitation.UserSendingId);
+                User userSending = await _context.Users.FirstOrDefaultAsync(u => u.ExternalId == GetUserId());
                 User userReceiving = await _context.Users.FirstOrDefaultAsync(u => u.Id == newInvitation.UserReceiving.Id);
                 Flight depFlight = await _context.Flights.FirstOrDefaultAsync(f => f.Id == newInvitation.DepartingFlightId);
                 Flight retFlight = await _context.Flights.FirstOrDefaultAsync(f => f.Id == newInvitation.ReturningFlightId);
@@ -46,9 +48,9 @@ namespace WebApp.Services.InvitationService
 
                 Invitation invite = new Invitation()
                 {
-                    UserSendingId = 0,
+                    //UserSendingId = 0,
                     UserSending = userSending,
-                    UserReceivingId = 0,
+                    //UserReceivingId = 0,
                     UserReceiving = userReceiving,
                     DepartingFlight = depFlight,
                     ReturningFlight = retFlight,
@@ -79,7 +81,7 @@ namespace WebApp.Services.InvitationService
             {
                 List<Invitation> dbInvitations = await _context.Invitations
                             .Include(r => r.UserReceiving).Include(r => r.UserSending).Include(r => r.DepartingFlight).Include(r => r.ReturningFlight)
-                            .Where(r => r.UserReceiving.Id == GetUserId()).ToListAsync();
+                            .Where(r => r.UserReceiving.ExternalId == GetUserId()).ToListAsync();
                 serviceResponse.Data = dbInvitations;
             }
             catch (Exception ex)

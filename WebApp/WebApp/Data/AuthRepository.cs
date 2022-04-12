@@ -43,8 +43,8 @@ namespace WebApp.Data
 
             //koristimo da ne bismo slali password kao string, nije bezbedno
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            //user.PasswordHash = passwordHash;
+            //user.PasswordSalt = passwordSalt;
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -86,11 +86,11 @@ namespace WebApp.Data
                 response.Success = false;
                 response.Message = "User not found.";
             } 
-            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            /*else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Wrong password.";
-            }
+            }*/
             else if (user.EmailConfirmed == false)
             {
                 response.Success = false;

@@ -8,10 +8,12 @@ namespace WebApp.Dtos.User
     public class GetUserDto
     {
         public int Id { get; set; }
+        //public string User_id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        //public string Password { get; set; }
+        //public byte[] PasswordHash { get; set; }
+        //apublic byte[] PasswordSalt { get; set; }
+        public string ExternalId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string City { get; set; }

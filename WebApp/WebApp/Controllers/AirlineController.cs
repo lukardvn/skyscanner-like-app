@@ -13,8 +13,8 @@ namespace WebApp.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
-    [Authorize(Roles = "admin")]
+    //[Authorize]
+    //[Authorize(Roles = "admin")]
     public class AirlineController : ControllerBase
     {
         private readonly IAirlineService _airlineService;
@@ -24,7 +24,7 @@ namespace WebApp.Controllers
             _airlineService = airlineService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllAirlines()
         {
@@ -32,6 +32,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("MyAirline")]
+        [Authorize("edit:airlines")]
         public async Task<IActionResult> GetMyAirline()
         {
             return Ok(await _airlineService.GetMyAirline());
@@ -73,6 +74,12 @@ namespace WebApp.Controllers
         public async Task<IActionResult> GetAvgRating(int id)
         {
             return Ok(await _airlineService.GetAvgRating(id));
+        }
+
+        [HttpPut("MakeAdmin")]
+        public async Task<IActionResult> AddAdmin([FromBody]UserAirlineDto userAirline)
+        {
+            return Ok(await _airlineService.AddAdminToAirline(userAirline));
         }
     }
 }

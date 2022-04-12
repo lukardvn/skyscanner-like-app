@@ -27,7 +27,8 @@ namespace WebApp.Services.AirlineService
             _mapper = mapper;
 
         }
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)); //INT, stari nacin
+        private string GetUserId() => _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         private string GetUserPrivilege() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
         public async Task<ServiceResponse<Airline>> GetMyAirline()
@@ -35,18 +36,20 @@ namespace WebApp.Services.AirlineService
             ServiceResponse<Airline> serviceResponse = new ServiceResponse<Airline>();
             try
             {
-                var priv = GetUserPrivilege();  //"admin" ili "regular"     MORA DA MOZE NA NIVOU KONTROLERA
+                //var priv = GetUserPrivilege();  //"admin" ili "regular"     MORA DA MOZE NA NIVOU KONTROLERA
 
-                if (priv != UserType.admin.ToString())
+                var id = GetUserId();
+
+                /*if (priv != UserType.admin.ToString())
                 {
                     serviceResponse.Success = false;
                     serviceResponse.Message = "You do not have privileges needed.";
-                }
+                }*/
 
                 User user = await _context.Users.Include(u => u.Airline).ThenInclude(a => a.AirlineDestinations)
                                                 .Include(u => u.Airline).ThenInclude(a => a.Flights)
                                                 .Include(u => u.Airline).ThenInclude(a => a.AirlineDestinations).ThenInclude(ad => ad.Destination)
-                                                .FirstOrDefaultAsync(u => u.Id == GetUserId());
+                                                .FirstOrDefaultAsync(u => u.ExternalId == GetUserId());
 
                 if (user == null)
                 {
@@ -178,6 +181,7 @@ namespace WebApp.Services.AirlineService
         {
             ServiceResponse<Airline> serviceResponse = new ServiceResponse<Airline>();
             Airline dbAirline = await _context.Airlines.Include(a => a.AirlineDestinations).ThenInclude(ad => ad.Destination)
+                                                        .Include(a => a.Admins)
                                                         .Include(a => a.Flights).ThenInclude(f => f.Reviews)
                                               .FirstOrDefaultAsync(u => u.Id == id);
 
@@ -217,6 +221,36 @@ namespace WebApp.Services.AirlineService
             }
 
             serviceResponse.Data = sumRatings / numOfReviews;
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<bool>> AddAdminToAirline(UserAirlineDto userAirline)
+        {
+            ServiceResponse<bool> serviceResponse = new ServiceResponse<bool>();
+
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userAirline.UserId);
+            if (user == null)
+            {
+                serviceResponse.Data = false;
+                serviceResponse.Message = "User not found.";
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            Airline airline = await _context.Airlines.Include(a => a.Admins).FirstOrDefaultAsync(a => a.Id == userAirline.AirlineId);
+            if (airline == null)
+            {
+                serviceResponse.Data = false;
+                serviceResponse.Message = "Airline not found.";
+                serviceResponse.Success = false;
+                return serviceResponse;
+            }
+
+            airline.Admins.Add(user);
+            _context.Airlines.Update(airline);
+            await _context.SaveChangesAsync();
+
+            serviceResponse.Data = true;
             return serviceResponse;
         }
     }

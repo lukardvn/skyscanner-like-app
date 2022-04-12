@@ -14,7 +14,8 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let user of users">
-              <tr *ngIf="user.id != currentId"> <!--ne prikazujem trenutnog korisnika-->
+              <tr *ngIf="user.externalId != this.currentId">
+              <!--<tr *ngIf="user.id != currentId"> --><!--ne prikazujem trenutnog korisnika-->
                 <td>{{user.email}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.surname}}</td>
